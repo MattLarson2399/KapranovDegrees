@@ -6,8 +6,8 @@
 #
 
 
-#fivelist = load('fivelist.sobj')
-#sixlist = load('sixlist.sobj')
+fivedict = load('fivedict.sobj')
+sixdict = load('sixdict.sobj')
 #above files must be loaded
 
 
@@ -79,13 +79,9 @@ def kapranovDegree(setsystem, check=True, knownCerberus=False):
 	if (n == 3 or n==4):
 		return 1
 	if (n==5):
-		for S in fivelist:
-			if (S[0] == setsystem):
-				return S[1]
+		return fivedict[str(S[0])]
 	if (n==6):
-		for S in sixlist:
-			if (S[0] == setsystem):
-				return S[1]
+		return sixdict[str(S[0])]
 
 	#if all psi classes are the same and the system satisfies Cerberus, then degree is 1
 	allpsi = set([s[1] for s in setsystem])
