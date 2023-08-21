@@ -5,26 +5,29 @@
 #
 #
 
-
+import itertools
 fivedict = load('fivedict.sobj')
 sixdict = load('sixdict.sobj')
 #above files must be loaded
 
 
-#tests if a collection of indices satisfies the cerberus condition
+#tests if a collection of sets satisfies the cerberus condition
 #returns 0 if it does not satisfy, 1 if it satisfies
 #number don't have to be 1 through n
 def cerberus(u):
 	dim = len(u)
+	if (dim == 0):
+		return 1
+	if (len(set(itertools.chain(*u))) < dim + 3):
+		return 0
 	for s in subsets(range(dim)):
 		if (len(s) == 0):
 			continue
-		total = u[s[0]]
-		for i in s:
-			total = total.union(u[i])
-		if (len(total) - 3 < len(s)):
+		total = [u[i] for i in s]
+		if (len(set(itertools.chain(*total))) < len(s) + 3):
 			return 0
 	return 1
+
 
 
 #takes a partition P, Q of n and a pair (set, index)
@@ -79,9 +82,9 @@ def kapranovDegree(setsystem, check=True, knownCerberus=False):
 	if (n == 3 or n==4):
 		return 1
 	if (n==5):
-		return fivedict[str(S[0])]
+		return fivedict[str(setsystem)]
 	if (n==6):
-		return sixdict[str(S[0])]
+		return sixdict[str(setsystem)]
 
 	#if all psi classes are the same and the system satisfies Cerberus, then degree is 1
 	allpsi = set([s[1] for s in setsystem])
